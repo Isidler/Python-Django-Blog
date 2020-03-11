@@ -9,6 +9,9 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+    def last_comments(self):
+        return self.comment_set.order_by('-created_date')[:10]
+
 
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)

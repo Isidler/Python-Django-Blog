@@ -1,20 +1,29 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404, HttpResponseRedirect
-
-from .models import Article, Comment
 from django.urls import reverse
+from django.views import generic
 from django.utils import timezone
 
-
-def index(request):
-    latest_article_list = Article.objects.order_by('-pub_date')[:5]
-    context = {'latest_article_list': latest_article_list}
-    return render(request, 'index.html', context)
+from .models import Article, Comment
 
 
-def detail(request, article_id):
-    article = get_object_or_404(Article, pk=article_id)
-    return render(request, 'detail.html', {'article': article})
+class IndexView(generic.ListView):
+    template_name = 'index.html'
+    context_object_name = 'latest_article_list'
+
+    def get_queryset(self):
+        """Return the last five published articles."""
+        return Article.objects.order_by('-pub_date')[:5]
+
+
+class DetailView(generic.DetailView):
+    model = Article
+    template_name = 'detail.html'
+
+
+# def detail(request, article_id):
+#     article = get_object_or_404(Article, pk=article_id)
+#     return render(request, 'detail.html', {'article': article})
 
 
 # def results(request, article_id):
@@ -27,4 +36,4 @@ def comment(request, article_id):
     article.comment_set.create(
         author=request.POST['author'], text=request.POST['comment_text'], created_date=timezone.now())
     article.save()
-    return render(request, 'detail.html', {'article': article})
+    return HttpResponseRedirect(reverse('detail', args=(article.id,)))
