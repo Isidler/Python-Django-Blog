@@ -11,7 +11,7 @@ class Article(models.Model):
 
 
 class Comment(models.Model):
-    question = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
     author = models.CharField('Автор комментирия', max_length=50)
     text = models.CharField(verbose_name='Текст комментирия', max_length=300)
     created_date = models.DateTimeField('Дата создания')
