@@ -12,7 +12,7 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_article_list'
     queryset = Article.objects.filter(
         pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
-    paginate_by = 1
+    paginate_by = 2
 
     # def get_queryset(self):
     #     """Return the last five published articles."""

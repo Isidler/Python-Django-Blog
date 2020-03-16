@@ -1,16 +1,16 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<div class="alert alert-success" role="alert">
-  A simple success alert—check it out!
-</div>
-
 	{% if latest_article_list %}
-			<ul>
 			{% for article in latest_article_list %}
-					<li><a href="{% url 'detail' article.id %}">{{ article.title }}</a></li>
+					<div class="card mb-2">
+						<div class="card-body">
+							<h5 class="card-title">{{ article.title }}</h5>
+							<p class="card-text">{{ article.text|slice:":300" }}...</p>
+							<a href="{% url 'articles:detail' article.id %}" class="btn btn-primary stretched-link">Detail</a>
+						</div>
+					</div>
 			{% endfor %}
-			</ul>
 	{% else %}
 			<p>No polls are available.</p>
 	{% endif %}
@@ -18,22 +18,18 @@
 
 	{% block pagination %}
 		{% if is_paginated %}
-			<nav aria-label="Page navigation example">
-				<ul class="pagination">
+			<div class="d-flex justify-content-between p-2">		
 				{% if page_obj.has_previous %}
-					<li class="page-item"><a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Позже</a></li>
+					<a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" class="btn btn-outline-secondary">back</a>
+				{% else %}
+					<a href="" class="btn btn-light disabled">back</a>
 				{% endif %}
-					<li class="page-item">
-					
-							<span class="current">
-									Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-							</span>
-					</li>
 				{% if page_obj.has_next %}
-					<li class="page-item"><a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">Раньше</a></li>
+					<a href="{{ request.path }}?page={{ page_obj.next_page_number }}" class="btn btn-outline-secondary">next</a>
+				{% else %}
+					<a href="" class="btn btn-light disabled">next</a>
 				{% endif %}
-				</ul>
-			</nav>
+			</div>
 		{% endif %}
-	{% endblock %} 
+	{% endblock pagination %} 
 {% endblock %}

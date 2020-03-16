@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   
-  {% block title %}<title>Local Library</title>{% endblock %}
+  {% block title %}<title>Software Developer's blog</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -13,21 +13,45 @@
 </head>
 
 <body>
-
   <div class="container-fluid">
-
-    <div class="row">
+		
+    <div class="row p-4">
       <div class="col-sm-2">
-      {% block sidebar %}
-      <ul class="sidebar-nav">
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="">All books</a></li>
-          <li><a href="">All authors</a></li>
-      </ul>
-     {% endblock %}
+				{% block left_sidebar %}
+				<div class="card border-0">
+					<img src="{% static "images/logo2.jpg" %}" class="card-img-top" alt="logo">
+					<div class="card-body">
+						<h2 class="card-title">Tech Crutch</h2>
+						<p class="card-text">Everything is possible. Power of legacy code.</p>
+					</div>
+					<ul class="list-group list-group-flush">
+						<a href="{% url 'articles:index' %}"><li class="list-group-item">Home</li></a>
+						<a href="{% url 'admin:index' %}"><li class="list-group-item">Admin pane</li></a>
+						<a href="{% url 'articles:index' %}" ><li class="list-group-item">Articles</li></a>
+					</ul>
+					<div class="card-body">
+						2020 (c) Secured by Tech Crutch
+					</div>
+				</div>
+
+				{% endblock left_sidebar %}
       </div>
-      <div class="col-sm-10 ">
+      <div class="col-sm-8 pl-4 pr-4">
       {% block content %}{% endblock %}
+      </div>
+			<div class="col-sm-2">
+				{% block right_sidebar %}
+					<input class="form-control form-control-lg" type="text" placeholder="Search">
+					<div class="card mt-2">
+						<div class="card-body">
+							<h5 class="card-title">About me</h5>
+							<h6 class="card-subtitle mb-2 text-muted">My name is Rybin Ivan</h6>
+							<p class="card-text">This is my first Django web site.</p>
+							<a href="#" class="card-link">Subscribe</a>
+							<a href="#" class="card-link text-danger">Report</a>
+						</div>
+					</div>
+				{% endblock right_sidebar %}
       </div>
     </div>
 
