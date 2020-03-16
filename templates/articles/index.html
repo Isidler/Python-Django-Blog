@@ -1,6 +1,10 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<div class="alert alert-success" role="alert">
+  A simple success alert—check it out!
+</div>
+
 	{% if latest_article_list %}
 			<ul>
 			{% for article in latest_article_list %}
@@ -14,19 +18,22 @@
 
 	{% block pagination %}
 		{% if is_paginated %}
-				<div class="pagination">
-						<span class="page-links">
-								{% if page_obj.has_previous %}
-										<a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Назад</a>
-								{% endif %}
-								<span class="page-current">
-										{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
-								</span>
-								{% if page_obj.has_next %}
-										<a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Вперед</a>
-								{% endif %}
-						</span>
-				</div>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+				{% if page_obj.has_previous %}
+					<li class="page-item"><a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Позже</a></li>
+				{% endif %}
+					<li class="page-item">
+					
+							<span class="current">
+									Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+							</span>
+					</li>
+				{% if page_obj.has_next %}
+					<li class="page-item"><a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">Раньше</a></li>
+				{% endif %}
+				</ul>
+			</nav>
 		{% endif %}
 	{% endblock %} 
 {% endblock %}
