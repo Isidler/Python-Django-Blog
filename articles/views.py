@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
@@ -8,17 +8,20 @@ from .models import Article, Comment
 
 
 class IndexView(generic.ListView):
-    template_name = 'index.html'
+    template_name = 'articles/index.html'
     context_object_name = 'latest_article_list'
+    queryset = Article.objects.filter(
+        pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+    paginate_by = 1
 
-    def get_queryset(self):
-        """Return the last five published articles."""
-        return Article.objects.order_by('-pub_date')[:5]
+    # def get_queryset(self):
+    #     """Return the last five published articles."""
+    #     return Article.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
 
 class DetailView(generic.DetailView):
     model = Article
-    template_name = 'detail.html'
+    template_name = 'articles/detail.html'
 
 
 # def detail(request, article_id):
