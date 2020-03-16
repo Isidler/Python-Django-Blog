@@ -3,13 +3,17 @@
 {% block content %}
 	{% if latest_article_list %}
 			{% for article in latest_article_list %}
-					<div class="card mb-2">
+					<div class="card mb-2 shadow-sm">
 						<div class="card-body">
-							<h5 class="card-title">{{ article.title }}</h5>
-							<p class="card-text">{{ article.text|slice:":300" }}...</p>
-							<a href="{% url 'articles:detail' article.id %}" class="btn btn-primary stretched-link">Detail</a>
-						</div>
+							<h4 class="card-title">{{ article.title }}</h4>
+							<p class="card-text mt-2">{{ article.text|slice:":300" }}...</p>
+							<a href="{% url 'articles:detail' article.id %}" class="btn btn-info stretched-link">Detail</a>
+							<div class="pt-2">
+								<small class="text-muted">Comments: {{article.get_comments_count}}</small>
+								<small class="text-muted">Public date: {{article.pub_date}}</small>
+							</div>
 					</div>
+				</div>
 			{% endfor %}
 	{% else %}
 			<p>No polls are available.</p>
@@ -18,7 +22,7 @@
 
 	{% block pagination %}
 		{% if is_paginated %}
-			<div class="d-flex justify-content-between p-2">		
+			<div class="p-2">		
 				{% if page_obj.has_previous %}
 					<a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" class="btn btn-outline-secondary">back</a>
 				{% else %}

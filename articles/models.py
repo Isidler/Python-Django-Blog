@@ -19,6 +19,9 @@ class Article(models.Model):
     def get_last_comments(self):
         return self.comment_set.order_by('-created_date')[:10]
 
+    def get_comments_count(self):
+        return self.comment_set.count()
+
 
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
